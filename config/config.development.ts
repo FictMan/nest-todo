@@ -7,7 +7,6 @@ export const config = {
         port: 5432,
         username: 'postgres',
         password: 'password',
-        database: 'nestTodo_development',
-        logging: false,
+        database: 'nestTodo_development'
     }
 };

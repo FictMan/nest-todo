@@ -1,4 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Logger } from '@nestjs/common';
+import { User } from '../users/user.entity';
+import { Post } from '../posts/post.entity';
 
 export const databaseProviders = [
   {
@@ -11,8 +14,10 @@ export const databaseProviders = [
         username: 'postgres',
         password: 'password',
         database: 'nestTodo_development',
+        logging: message => Logger.log(message, 'Sequelize')
       });
-      sequelize.addModels([]);
+      // @ts-ignore
+      sequelize.addModels([User, Post]);
       await sequelize.sync();
       return sequelize;
     },
