@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiParam } from '@nestjs/swagger';
+import { LocalAuthenticationGuard } from '../auth/localAuthentication.guard';
 
 @Controller('users')
 export class UsersController {
@@ -15,6 +16,7 @@ export class UsersController {
     return this.userService.findAll();
   }
 
+  @UseGuards(LocalAuthenticationGuard)
   @ApiParam({ name: 'id', required: true })
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserDto> {

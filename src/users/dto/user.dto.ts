@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user.entity';
-import { PostDto } from '../../posts/dto/post.dto';
 
 export class UserDto {
   @ApiProperty()
@@ -16,13 +15,13 @@ export class UserDto {
   readonly username: string;
 
   @ApiProperty()
-  readonly posts: PostDto[];
+  readonly email: string;
 
   constructor(user: User) {
     this.id = user.id;
     this.phone = user.phone;
     this.username = user.username;
+    this.email = user.email;
     this.firstName = user.firstName;
-    this.posts = user.posts
   }
 }

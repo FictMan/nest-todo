@@ -3,19 +3,16 @@ import { QueryInterface } from 'sequelize';
 export default {
   up: async (queryInterface: QueryInterface, Sequilize) => {
     await queryInterface.addColumn(
-      'posts',
-      'userId',
+      'users',
+      'email',
       {
-        type: Sequilize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
+        type: Sequilize.STRING,
+        unique: true
       }
     )
   },
 
   down: async (queryInterface: QueryInterface) => {
-    await queryInterface.removeColumn('posts', 'userId')
+    await queryInterface.removeColumn('users', 'email')
   }
 };

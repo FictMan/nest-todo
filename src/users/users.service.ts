@@ -1,5 +1,5 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
-import { genSalt, hash } from 'bcrypt';
+import { genSalt, hash, compare } from 'bcrypt';
 import { User } from './user.entity';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -29,10 +29,23 @@ export class UsersService {
     return new UserDto(user);
   }
 
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { username } });
+
+    if (!user) {
+      throw new HttpException(
+        'User with given username not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return user;
+  }
+
   async create(data: CreateUserDto): Promise<UserDto> {
     try {
       const user = new User();
       user.username = data.username;
+      user.email = data.email;
 
       const salt = await genSalt(10);
       user.password = await hash(data.password, salt);

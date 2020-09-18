@@ -1,6 +1,6 @@
 import {
-  Table, Column, Model, Unique, DefaultScope, Default, PrimaryKey,
-  DataType, Is, AllowNull, Index, Length, HasMany, AutoIncrement,
+  Table, Column, Model, Unique, DefaultScope, PrimaryKey,
+  DataType, Is, AllowNull, Index, Length, HasMany, AutoIncrement, ModelCtor,
 } from 'sequelize-typescript';
 import { Post } from '../posts/post.entity';
 
@@ -19,7 +19,7 @@ export class User extends Model<User> {
 
   @Is(/^[\dA-Za-z]+$/)
   @Length({ min: 5, max: 25 })
-  @AllowNull(false)
+  @AllowNull
   @Unique
   @Index
   @Column(DataType.STRING(25))
@@ -32,6 +32,12 @@ export class User extends Model<User> {
   @Index
   @Column(DataType.STRING(13))
   public phone: string;
+
+  @AllowNull
+  @Is(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
+  @Unique
+  @Column
+  public email: string
 
   @Length({ min: 6 })
   @AllowNull(false)
